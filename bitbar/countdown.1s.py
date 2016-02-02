@@ -11,7 +11,7 @@
 from datetime import datetime, time
 
 # Set date in format using this format: yyyy-mm-dd hh:mm:ss
-DATE = '2016-02-02 00:00:00'
+DATE = '2016-02-14 00:00:00'
 
 
 def dateDiffInSeconds(date1, date2):
@@ -35,4 +35,4 @@ def days(seconds):
 leaving_date = datetime.strptime(DATE, '%Y-%m-%d %H:%M:%S')
 now = datetime.now()
 
-print "%d days until kk's bday!" % days(dateDiffInSeconds(now, leaving_date))
+print "%d days to vday" % days(dateDiffInSeconds(now, leaving_date))
