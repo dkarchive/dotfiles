@@ -31,9 +31,25 @@ def interpolate(score)
   "#%02X%02X%02X" % [red, green, 0]
 end
 
+def shorten(story)
+  story.gsub('The','-')
+    .gsub('the','-')
+    .gsub('first','1st')
+    .gsub(' to ',' 2 ')
+    .gsub('Libraries','Libs')
+    .gsub('library','lib')
+    .gsub('Hacker News','HN')
+    .gsub('Project','Proj.')
+    .gsub('asynchronous','async')
+    .gsub('and','&')
+    .gsub('with','w/')
+    .gsub('memory','mem')
+    .gsub('Facebook','FB')
+end
+
 def output(story, redirect=true)
   begin
-    puts redirect == false ? "#{story["title"]} (#{story["descendants"]}) | color=orange": "#{story["title"]} | href=#{story["url"]} color=#337ab7"
+    puts redirect == false ? "#{shorten story["title"]} #{story["descendants"]}💬  | color=orange": "#{story["title"]} | href=#{story["url"]} color=#337ab7"
     puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black" if redirect
     puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}" if redirect
   rescue => exception
@@ -42,11 +58,8 @@ def output(story, redirect=true)
   puts "---"
 end
 
-# t = get_header
-
-get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output(story, false) }
-
 begin
+  get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output(story, false) }
   get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
 rescue => _
   puts "Content is currently unavailable. Please try resetting. | color=red"
