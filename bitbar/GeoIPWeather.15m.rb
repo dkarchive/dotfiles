@@ -91,7 +91,8 @@ def weather(zip_code, country)
   city = weather_json['name']
   country = weather_json['sys']['country']
 
-  puts "#{city}, #{country}: #{temperature}#{temperature_symbol}"
+  # puts "#{city}, #{country}: #{temperature}#{temperature_symbol}"
+  puts "🌤#{temperature}#{temperature_symbol}"
 end
 
 weather(*location)
