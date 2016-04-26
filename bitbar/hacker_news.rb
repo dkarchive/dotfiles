@@ -32,24 +32,30 @@ def interpolate(score)
 end
 
 def shorten(story)
-  story.gsub('The','-')
-    .gsub('the','-')
+  story.gsub('The ','- ')
+    .gsub('the ','- ')
     .gsub('first','1st')
+    .gsub('Fourth','4th')
     .gsub(' to ',' 2 ')
     .gsub('Libraries','Libs')
     .gsub('library','lib')
     .gsub('Hacker News','HN')
-    .gsub('Project','Proj.')
+    .gsub('Project','Proj')
     .gsub('asynchronous','async')
     .gsub('and','&')
     .gsub('with','w/')
     .gsub('memory','mem')
     .gsub('Facebook','FB')
+    .gsub('JavaScript','JS')
+    .gsub('iPhone','📱')
+    .gsub('average','avg')
+    .gsub('size','sz')
+    .gsub('Japan','🇯🇵 ')
 end
 
 def output(story, redirect=true)
   begin
-    puts redirect == false ? "#{shorten story["title"]} #{story["descendants"]}💬  | color=orange": "#{story["title"]} | href=#{story["url"]} color=#337ab7"
+    puts redirect == false ? "#{shorten story["title"]} 💬#{story["descendants"]} | color=orange": "#{story["title"]} | href=#{story["url"]} color=#337ab7"
     puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black" if redirect
     puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}" if redirect
   rescue => exception
