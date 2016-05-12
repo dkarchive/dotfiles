@@ -11,8 +11,8 @@
 from datetime import datetime, time
 
 # Set date in format using this format: yyyy-mm-dd hh:mm:ss
-DATE = '2016-02-14 00:00:00'
-
+DATE = '2016-05-20 11:00:00'
+EVENT = 'family day'
 
 def dateDiffInSeconds(date1, date2):
     timedelta = date2 - date1
@@ -34,5 +34,6 @@ def days(seconds):
 
 leaving_date = datetime.strptime(DATE, '%Y-%m-%d %H:%M:%S')
 now = datetime.now()
+cd = days(dateDiffInSeconds(now, leaving_date))
 
-print "%d days to vday" % days(dateDiffInSeconds(now, leaving_date))
+print "{0} in {1}d".format(EVENT, cd)
