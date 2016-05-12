@@ -16,7 +16,7 @@ API_KEY = '8b4824b451d5db1612156837df880f55' # you can also get your own at http
 
 require 'json'
 require 'net/http'
-# require 'pp'
+require 'pp'
 
 def no_data(message = nil)
   if message
@@ -54,20 +54,27 @@ end
 
 def weather_get_icon(condition)
   case condition
-  when 'clear sky'
+  when 800
     '☀️'
-  when 'scattered clouds', 'few clouds', 'broken clouds'
+  when 801..804
     '☁️'
-  when 'shower rain'
+  when 300..321
     '🌧'
-  when 'rain'
+  when 500.504
     '🌦'
-  when 'thunderstorm'
+  when 200..232
     '⛈'
-  when 'few clouds'
+  when 521.531
+  when 500..504
     '⛅'
-  when 'snow'
+  when 600..622
+  when 511
     '🌨'
+  when 781
+  when 900..902
+    '🌪'
+  when 905
+    '🌬'
   # when 'mist'
   #   '🌫'
   else
@@ -115,14 +122,18 @@ def weather(zip_code, country)
   city = weather_json['name']
   country = weather_json['sys']['country']
 
+  weather_id = weather_json['weather'][0]['id']
+  # puts weather_id.class
+  # exit
+  icon = weather_get_icon weather_id
+
   condition = weather_json['weather'][0]['description']
-  icon = weather_get_icon condition
 
   puts "#{icon} #{temperature}#{temperature_symbol}"
   puts '---'
   puts condition.split.map(&:capitalize).join(' ')
   puts city
-  # pp weather_json
+  pp weather_json
 end
 
 weather(*location)
