@@ -7,6 +7,7 @@
 
 require 'net/http'
 require 'json'
+# require 'pp'
 
 NUMBER_OF_STORIES = 5
 MAX_SCORE = 300
@@ -57,21 +58,43 @@ def shorten(story)
     .gsub('year-old','yo')
     .gsub('Global','🌎 ')
     .gsub('World','🌎 ')
+    .gsub('"','')
+    .gsub('“','')
+    .gsub('”','')
 end
 
-def output(story, redirect=true)
+def domain(url)
+  require 'pp'
+  m = url.match /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/
+  return url if  m.nil?
+  m[3].to_s.gsub('www.', '')
+end
+
+def output(story)
   begin
-    puts redirect == false ? "#{shorten story["title"]} 💬#{story["descendants"]} | color=orange": "#{story["title"]} | href=#{story["url"]} color=#337ab7"
-    puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black" if redirect
-    puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}" if redirect
+    u = story["url"]
+    puts "#{story["title"]} — #{domain(u)} | href=#{u} color=#337ab7"
+    puts "#{u} | href=#{u} color=#cccccc"
+    puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black"
+    puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
   rescue => exception
     puts "An error occured: " + exception.to_s
+    # puts story
   end
-  puts "---"
+  puts output_separator
+end
+
+def output_main(story)
+  puts "#{shorten story["title"]} [#{domain story['url']}] 💬#{story["descendants"]} | color=orange"
+  puts output_separator
+end
+
+def output_separator
+  '---'
 end
 
 begin
-  get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output(story, false) }
+  get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output_main story }
   get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
 rescue => _
   puts "Content is currently unavailable. Please try resetting. | color=red"
