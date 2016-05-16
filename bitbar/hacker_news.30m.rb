@@ -92,7 +92,7 @@ def output_main(story)
   s = shorten story["title"]
   d = domain story['url']
 
-  line = "#{s} →#{d} 💬 #{story["descendants"]}"
+  line = "#{s} →#{d} 💬 #{story["descendants"]}".upcase
   lines = line.split ' '
   index = lines.size/2
 
@@ -102,9 +102,9 @@ def output_main(story)
     o << ' '
     o << '\n' if i == index
   end
-  o << ' | color=orange size=9'
+  o << ' | color=#ff720d size=9'
   puts o
-  
+
   puts output_separator
 end
 

@@ -48,7 +48,8 @@ artist=`osascript -e 'tell application "Spotify" to artist of current track as s
 album=`osascript -e 'tell application "Spotify" to album of current track as string'`;
 
 str=`echo $artist | awk '{print toupper($0)}'`
-f="$track\n$str | size=9 color=green"
+song=`echo $track | awk '{print toupper($0)}'`
+f="$song\n$str | size=9 color=green"
 echo $f
 echo "---"
 
