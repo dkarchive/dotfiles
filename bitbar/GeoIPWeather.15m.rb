@@ -129,7 +129,7 @@ def weather(zip_code, country)
 
   condition = weather_json['weather'][0]['description']
 
-  puts "#{icon} #{temperature}#{temperature_symbol}"
+  puts "#{icon} #{temperature}"
   puts '---'
   puts condition.split.map(&:capitalize).join(' ')
   puts city
