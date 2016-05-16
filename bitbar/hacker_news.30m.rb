@@ -104,7 +104,7 @@ end
 
 begin
   get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output_main story }
-  # get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
+  get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
 rescue => _
   puts "Content is currently unavailable. Please try resetting. | color=red"
 end
