@@ -55,6 +55,7 @@ def shorten(story)
     .gsub('Japan','🇯🇵 ')
     .gsub('Bitcoin','BTC')
     .gsub('Tesla','TSLA')
+    .gsub('Yahoo','YHOO')
     .gsub('year-old','yo')
     .gsub('Global','🌎 ')
     .gsub('World','🌎 ')
@@ -91,10 +92,19 @@ def output_main(story)
   s = shorten story["title"]
   d = domain story['url']
 
-  o = s
-  o << '\n'
-  o << "#{d.upcase} 💬 #{story["descendants"]} | color=orange size=9"
+  line = "#{s} →#{d} 💬 #{story["descendants"]}"
+  lines = line.split ' '
+  index = lines.size/2
+
+  o = ''
+  lines.each_with_index do |l, i|
+    o << l
+    o << ' '
+    o << '\n' if i == index
+  end
+  o << ' | color=orange size=9'
   puts o
+  
   puts output_separator
 end
 
@@ -105,6 +115,7 @@ end
 begin
   get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output_main story }
   get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
-rescue => _
+rescue => e
+  puts e
   puts "Content is currently unavailable. Please try resetting. | color=red"
 end
