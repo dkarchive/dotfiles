@@ -1,4 +1,4 @@
-# top
+# :top:
 
 My [`bitbar`](https://github.com/matryer/bitbar) plugins.
 
