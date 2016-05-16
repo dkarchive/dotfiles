@@ -47,7 +47,9 @@ track=`osascript -e 'tell application "Spotify" to name of current track as stri
 artist=`osascript -e 'tell application "Spotify" to artist of current track as string'`;
 album=`osascript -e 'tell application "Spotify" to album of current track as string'`;
 
-echo $state_icon $track - $artist
+str=`echo $artist | awk '{print toupper($0)}'`
+f="$track\n$str | size=9 color=green"
+echo $f
 echo "---"
 
 case "$0" in

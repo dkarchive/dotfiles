@@ -61,13 +61,16 @@ def shorten(story)
     .gsub('"','')
     .gsub('“','')
     .gsub('”','')
+    .gsub('Announcing','📢 ')
 end
 
 def domain(url)
   require 'pp'
   m = url.match /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/
   return url if  m.nil?
-  m[3].to_s.gsub('www.', '')
+  m[3].to_s
+    .gsub('www.', '')
+    .gsub('.com','')
 end
 
 def output(story)
@@ -85,7 +88,13 @@ def output(story)
 end
 
 def output_main(story)
-  puts "#{shorten story["title"]} [#{domain story['url']}] 💬#{story["descendants"]} | color=orange"
+  s = shorten story["title"]
+  d = domain story['url']
+
+  o = s
+  o << '\n'
+  o << "#{d.upcase} 💬 #{story["descendants"]} | color=orange size=9"
+  puts o
   puts output_separator
 end
 
@@ -95,7 +104,7 @@ end
 
 begin
   get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output_main story }
-  get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
+  # get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
 rescue => _
   puts "Content is currently unavailable. Please try resetting. | color=red"
 end
