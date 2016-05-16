@@ -17,7 +17,7 @@ output = "#{d}d #{SYMBOL} #{EVENT}"
 o = d.to_s
 o << SYMBOL
 o << '\n'
-o << EVENT.to_s
+o << EVENT
 o << ' | size=8'
 
 puts FORMAT_SHORT ? o : output
