@@ -1,6 +1,4 @@
-# :top:
-
-My [`bitbar`](https://github.com/matryer/bitbar) plugins.
+:top: My [`bitbar`](https://github.com/matryer/bitbar) plugins.
 
 ![](http://i.giphy.com/JlxFcvNuzlPYA.gif)
 
