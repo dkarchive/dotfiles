@@ -49,7 +49,7 @@ album=`osascript -e 'tell application "Spotify" to album of current track as str
 
 str=`echo $artist | awk '{print toupper($0)}'`
 song=`echo $track | awk '{print toupper($0)}'`
-f="$song\n$str | size=9 color=green"
+f="$song\n♫ $str | size=9 color=green"
 echo $f
 echo "---"
 
