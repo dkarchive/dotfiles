@@ -66,19 +66,25 @@ def shorten(story)
 end
 
 def domain(url)
-  require 'pp'
+  return url if url.nil?
+  return 'medium' if url.include? 'medium'
+
   m = url.match /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/
-  return url if  m.nil?
+  return url if m.nil?
+
   m[3].to_s
     .gsub('www.', '')
     .gsub('.com','')
+    .gsub('.edu','')
+    .gsub('blog.','')
 end
 
 def output(story)
   begin
     u = story["url"]
-    puts "#{story["title"]} — #{domain(u)} | href=#{u} color=#337ab7"
-    puts "#{u} | href=#{u} color=#cccccc"
+    d = u==nil ? '' : "- #{domain(u)}"
+    puts "#{story["title"]} #{d} | href=#{u} color=#337ab7"
+    puts "#{u} | href=#{u} color=#cccccc" unless u.nil?
     puts "Comments: #{story["descendants"]} | href=https://news.ycombinator.com/item?id=#{story["id"]} color=black"
     puts "Score: #{story["score"]} | color=#{interpolate(story["score"])}"
   rescue => exception
@@ -92,7 +98,7 @@ def output_main(story)
   s = shorten story["title"]
   d = domain story['url']
 
-  line = "#{s} →#{d} 💬 #{story["descendants"]}".upcase
+  line = "#{s} 🌎#{d} 💬#{story["descendants"]}".upcase
   lines = line.split ' '
   index = lines.size/2
 
@@ -116,6 +122,7 @@ begin
   get_top_stories(1).map { |id| get_story_for_id(id) }.each { |story| output_main story }
   get_top_stories(NUMBER_OF_STORIES).map { |id| get_story_for_id(id) }.each { |story| output(story) }
 rescue => e
+  puts "hn n/a | color=red"
+  puts output_separator
   puts e
-  puts "Content is currently unavailable. Please try resetting. | color=red"
 end
