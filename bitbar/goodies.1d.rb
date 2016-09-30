@@ -5,7 +5,7 @@ require 'ios_goodies_new_issue'
 web = IosGoodiesNewIssue::web_get()
 next_issue = web.to_i + 1
 github = IosGoodiesNewIssue::github_matches(next_issue)
-output = github ? '💖\n‼️' : '💖\n✅'
+output = github ? '💖\n‼️' : '🍰\n✅'
 output << " | size=8"
 puts output
 puts '---'
