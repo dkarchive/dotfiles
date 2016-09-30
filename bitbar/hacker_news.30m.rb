@@ -65,18 +65,27 @@ def shorten(story)
     .gsub('Announcing','📢 ')
 end
 
+def domain_filter(x)
+  x.to_s
+    .gsub('www.', '')
+    .gsub('.com','')
+    .gsub('.edu','')
+    .gsub('.org','')
+    .gsub('blog.','')
+    .gsub('http://','')
+end
+
 def domain(url)
+  # require 'pry'
+
   return url if url.nil?
   return 'medium' if url.include? 'medium'
 
   m = url.match /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/
-  return url if m.nil?
+  # binding.pry
+  return domain_filter url if m.nil?
 
-  m[3].to_s
-    .gsub('www.', '')
-    .gsub('.com','')
-    .gsub('.edu','')
-    .gsub('blog.','')
+  domain_filter m[3]
 end
 
 def output(story)
